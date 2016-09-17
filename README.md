@@ -1,4 +1,2 @@
 # hello-world
-I am a Hava enthusisast.
-
-#about myself
+I am a Java enthusisast.
