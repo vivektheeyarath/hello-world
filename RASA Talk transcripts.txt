@@ -1,0 +1,203 @@
+Slide 1
+
+	What is Conversational AI & RASA
+		- RASA 
+			- A Python library to faciliate building of chatbots
+			- built on top of NN library like keras and scikit-learn
+			- take ideas from keras and scikit-learn
+			
+		- Levels of assistants
+			- Level 1 : Notifications
+			- Level 2 : Chatbots - FAQ
+			- Level 3 : Contextual Assistants
+			- Level 4 : Personalized Assistants
+			- Level 5 : Autonomous Organization
+
+Demo
+	•	Context handling
+		o	What is scarf?
+		•	How to contribute
+		o	What is code4scarf?
+		•	How to contribute
+		o	What is scarf initializer?
+		•	Documentation
+		o	What is rad studio?
+		•	Documentation
+	•	JIRA custom actions
+		o	Show details on scarfon-#
+		o	Who is the poc of scarfon-#
+		o	List all the graduated/incubation components
+	•	Multi-intent
+		o	What is scarf and code4scarf?(new reply)
+		o	Thanks bye( single reply)
+		o	Details and poc of scarfon-#(two replies)
+	•	Feedback form
+		o	#happy path
+		o	I want to leave feedback
+		o	My name is vivek
+		o	Bad
+		o	8
+		o	#stop and continue path
+		o	I want to leave bad feedback
+		o	Vivek
+		o	No ; no; yes
+		o	Three; 3
+		o	#stop and end path
+		o	My name is abhay and I want to give feedback rating of 7
+		o	No; no
+		o	No; No
+			
+Slide 2
+	Components of a RASA Chatbot
+	
+	RASA NLU
+		- Understands user input
+		- Generates structured data from unstructured user input
+		- Intents & Entities
+		
+	RASA COre
+		- Determines how bot should react to the user input
+		- Dialog management
+
+	RASA NLG
+		- Natural Language Generation (NLG) is a subdivision of Artificial Intelligence (AI) that aims to 
+		reduce communicative gaps between machines and humans
+	
+		Eg: Weather reports into text
+	
+	
+Slide 3 RASA NLU
+	
+	Unstructured data to structured data
+	
+	What is an Intent?
+	
+	What is an Entity?
+	
+Slide 4 RASA NLU Pipeline
+
+	Training pipelines / Processing pipelines
+		- series of processing steps which will help in identifying intents and entites
+	
+	Default - Spacy based pipeline
+	
+	NLU Under the hood
+	
+	Alternative - Tensorflow pipeline
+
+	Intent Classification
+	
+		standard way - represent sentences as a sum of word vectors, and then train a 
+		classifier on that representation.
+		
+		{
+		  "text": I’m hungry
+		  "text": Show me good pizza spots
+		  "text":I want to take my boyfriend out for sushi    => restuarant_search
+		  "text":Can also be
+		  "text":request_booking
+		}
+		
+		SVM / Neural Net etc could be used
+		Quality of word vectors matters
+
+		With tensorflow multi-intent possible
+		
+	Entity Extraction
+		Tokenizer
+		POS tagging
+		Chunker
+		NER
+		Entity Extraction
+
+	- pretrained spacy embeddings pipline
+		- each embedding is a dense numeric vector
+		- with pretrained model, better model performance with less training data required
+		- Faster training
+		- shortcomings
+			- not all languages have pretrained word embeddings
+			- pretrained word embeddings may not cover domain specific words
+	- Supervised embedding pipeline
+		- Learns everything from scratch - from examples in the training file
+		- More training examples required (1000 labeled examples or more)
+			Advantages
+				- Language agnostic
+				- Model will pickup domain specific vocabulary
+				- Multi-intent messages
+		
+Slide 5 Dialog Flow
+	Basics of Dialog Flow
+	
+Slide 6 (Dialog Flow Second)
+ 
+	LSTM based Supervised learning and Reinforcement learning
+	Maps from raw dialog history directly to a distribution over system actions 
+	LSTM automatically infers a representation of dialog history
+	LSTM can be optimized using supervised learning (SL)
+	using reinforcement learning (RL)
+
+Slide 7 - Dialog Management
+	Guided by Policies
+	
+	Utter Actions & Custom Actions
+	
+			- Dialog training Policies
+				- max_history - how many conversational turns assistant looks at before predicting next action
+					depends on length of training stories and patterns we like the assistant to remember
+					higher number will make models bigger and longer time duration for training
+					- slots could be used to have a smaller max_history
+				- data augmentation
+					use 'rasa train --augmentation 20' will create 200 augmented stories
+				
+				Memoization Policies
+					tries to match the fragment of the current conversation with an existing training story
+					and returns 0 or 1
+					used along with other policies
+					optimized for precision and not recall
+					params like max_history and priority (of the policy)
+				Mapping Policy
+					Helps add business logic to the assistant
+					Used to Map a specific intent to a specific action
+					Used when regardless of what happens in the conversation the action is specific
+					Can be overridden by user_utterances_reverted event
+				Keras Policy
+					Uses Nerual network implemented in python deep learning library called Keras
+					Used to predict the next action based on last action, slots, current intents
+					based on LSTM (Long Short Term Memory)
+					- Params - validation_split, epochs, max_history, random_seed
+		
+				Transformer Embedding Dialog Policy (TEDP)
+					Outperforms Keras for multi-turn dialog modelling
+					Uses transformer
+					Works better for chitchats
+					Refer a paper RASA has brought out on this
+					- Params - host of params, refer doc
+				
+				Form Policy
+					When lots of information needs to be collected
+					Ensures necessary information is collected
+					Form action needs to be implemented for this policy
+					
+				Fallback Policy
+					Can be triggered based on threshold values for nlu and dialog management models
+					To handle unknown situations gracefully
+					policy is configured with nlu_threshold, ambiguity_threshold, core_threshold params and actions
+					
+				TwoStageFallback Policy
+					If the first prediction is affirmed by the user, conversation continues
+					Else if the user denies it, assistant asks to rephrase the message
+				
+					Both Fallback and TwoStageFallback cannot be used together. Only one
+
+Slide 8 - RASA NLG
+	
+	Reduce communicative gap between machine and humans
+	
+	template based responses
+	
+	custom NLG server - could be configured in endpoints.yml
+
+Slide 9 - Summary
+
+Slide 10 - Botfront & RASA X
+
