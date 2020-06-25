@@ -14,38 +14,54 @@ Slide 1
 			- Level 5 : Autonomous Organization
 
 Demo
-	•	Context handling
-		o	What is scarf?
-		•	How to contribute
-		o	What is code4scarf?
-		•	How to contribute
-		o	What is scarf initializer?
-		•	Documentation
-		o	What is rad studio?
-		•	Documentation
-	•	JIRA custom actions
-		o	Show details on scarfon-#
-		o	Who is the poc of scarfon-#
-		o	List all the graduated/incubation components
-	•	Multi-intent
-		o	What is scarf and code4scarf?(new reply)
-		o	Thanks bye( single reply)
-		o	Details and poc of scarfon-#(two replies)
-	•	Feedback form
-		o	#happy path
-		o	I want to leave feedback
-		o	My name is vivek
-		o	Bad
-		o	8
-		o	#stop and continue path
-		o	I want to leave bad feedback
-		o	Vivek
-		o	No ; no; yes
-		o	Three; 3
-		o	#stop and end path
-		o	My name is abhay and I want to give feedback rating of 7
-		o	No; no
-		o	No; No
+	Elastic search
+        Search kafka
+		Elasticsearch scarf
+        Search mnbmnb
+
+	Two stage fallback
+		something u can tell me aboutscarfstore (what is scarf store?)
+		How can I use a scarf? (what is scarf?)
+		Blah (no)
+
+	Context handling
+		What is scarf?
+		How to contribute
+		
+		What is code4scarf?
+		How to contribute
+		
+		What is scarf initializer?	
+		Documentation
+		What is rad studio?
+		Documentation
+		
+	JIRA custom actions
+		Show details on scarfon-#
+		Who is the poc of scarfon-#
+		List all the graduated/incubation components
+
+	Multi-intent
+		What is scarf and code4scarf?(new reply)
+		Details and poc of scarfon-#(two replies)
+
+	Feedback form
+		#happy path
+		I want to leave feedback
+		My name is vivek
+		Bad
+		8
+
+		#stop and continue path
+		I want to leave bad feedback
+		Vivek
+		No ; no; yes
+		Three; 3
+
+		#stop and end path
+		My name is abhay and I want to give feedback rating of 7
+		No; no
+		No; No
 			
 Slide 2
 	Components of a RASA Chatbot
@@ -200,4 +216,254 @@ Slide 8 - RASA NLG
 Slide 9 - Summary
 
 Slide 10 - Botfront & RASA X
+
+
+Notes
+
+A chatbot is a computer software program designed to simulate human conversation via text or audio messages.
+Conversational AI refers to the use of messaging apps, speech-based assistants and chatbots to automate 
+communication and create personalized customer experiences at scale.					
+bots are the mechanism that enable organizations to deliver highly personalized interactions at scale.
+
+What is a model?
+	We assume the future is like the past and try to model the past to predict how it repeats in the future. 
+That's an interestingly flat interpretation of learning.
+
+Intent Classification
+	The standard way we’ve been doing intent classification since Rasa NLU was released is to represent 
+sentences as a sum of word vectors, and then train a classifier on that representation. We run regular 
+benchmarks on a dozen different datasets, where we try different word vectors and classifiers to see what 
+really moves the needle. Mostly it’s the quality (or appropriateness) of your word vectors that matters, and 
+using a neural net instead of a support vector machine (SVM) doesn’t make any difference.
+
+What are Word Vectors?
+	Word vectors are simply vectors of numbers that represent the meaning of a word. 
+Word vectors represent words as multidimensional continuous floating point numbers where semantically similar 
+words are mapped to proximate points in geometric space. In simpler terms, a word vector is a row of real 
+valued numbers (as opposed to dummy numbers) where each point captures a dimension of the word’s meaning and 
+where semantically similar words have similar vectors.
+
+The beauty of representing words as vectors is that they lend themselves to mathematical operators. For example, we can add and subtract vectors — the canonical example here is showing that by using word vectors we can determine that:
+king — man + woman = queen
+
+---
+Rasa’s API uses ideas from scikit-learn and Keras, and indeed both of these libraries are components of a Rasa 
+application and the text classification is loosely based on the fastText approach.
+
+Sentences are represented by pooling word vectors for each constituent token.
+
+Using pre-trained word embedding such as GloVe , the trained intent classifiers are remarkably robust to 
+variations in phrasing when trained with just a few examples for each intent.
+
+fastText as a library for efficient learning of word representations and sentence classification. 
+FastText allows you to train supervised and unsupervised representations of words and sentences. These 
+representations (embeddings) can be used for numerous applications from data compression, as features into 
+additional models, for candidate selection, or as initializers for transfer learning.
+
+https://towardsdatascience.com/fasttext-under-the-hood-11efc57b2b3
+https://arxiv.org/pdf/1606.01269.pdf
+StarSpace paper from Facebook
+
+RASA
+	Uses ideas from scikit-learn and Keras, 
+	Both of these libraries are components of a Rasa application 
+	Text classification is loosely based on the fastText approach
+	Sentences are represented by pooling word vectors for each constituent token
+	Using pre-trained word embedding such as GloVe , the trained intent classifiers 
+	are remarkably robust to variations in phrasing when trained with just a few examples for each intent.
+
+RASA NLU
+	NLU is a sub-field of NLP which handles a narrow but complex challenge of converting unstructured inputs 
+	into a structured form which a machine can understand and act upon. 
+
+		Intent: This tells us what the user would like to do.
+			Ex : Raise a complaint, request for refund etc
+
+		Entities: These are the attributes which gives details about the user’s task. 
+		Example: Complaint regarding service disruptions, refund cost etc.
+
+		Confidence Score : This is a distance metric which indicates how closely the NLU could classify 
+		the result into the list of intents.
+
+	NLG
+		A chatbot possessing NLG ability would mean that the chatbot knows what exact and clear response 
+		(message) to generate for a corresponding user message.
+		Take an example like ‘I want to travel from London to New York’,the chatbot would have to understand 
+		that for booking a flight we also need date and time of the travel and thus ask the user for a 
+		specific date of travel, time of travel, return journey etc.
+		However, if the user had already provided this information in the message then the chatbot should not 
+		ask for the same information again.
+		In case of if user doesn’t provide the date and time of travel then the chatbot should respond like 
+		‘Thank you Mr. ABC for your inquiry. Could you provide the date and time of travel?’
+		But, If user already provide the detail then the chatbot should respond like ‘‘Thank you Mr. ABC for 
+		your enquiry. Let me check for available flights and get back soon’		
+	
+		Recent research in NLG has uncovered Deep Learning algorithms, especially Neural Dialog Generation Models 
+		such as Sequence to Sequence, that are more effective in predicting responses to natural language 
+		conversations.
+
+		Template driven NLG (provided by RASA) Vs Nerual Network driven NLG (to be done by you)
+		
+	NER
+		numeral- This type will contain all the entities that deal with the numeral or numbers. 
+		For example, number detection, budget detection, size detection, etc.
+		pattern- This will contain all the detection logic where identification can be done using 
+		patterns or regular expressions. For example, email, phone_number, PNR, etc.
+		temporal- It will contain detection logic for detecting time and date.
+		textual- It identifies entities by looking at the dictionary. This detection mainly contains 
+		detection of text (like cuisine, dish, restaurants, etc.), the name of cities, the location of a user, etc.
+
+	Intent Classification
+	
+	Dialog Management
+	
+---
+Load the Model MetaData
+Create a processing pipeline
+Process text through the pipeline
+
+1)
+http://10.6.138.93:8015/model/parse 
+post request
+{
+"text": "what is a scarf?",
+"message_id": "b831e73-1407-4ba0-a861-0f30a42a2a5a"
+}
+ 
+2)
+Output for the same text from Spacy and tensorflow pipelines
+
+3) Chatbot features
+
+4) Interactive training
+
+--Rasa
+Rasa is a great tool in the way that it hides the complexity of machine learning algorithms to expose a simple 
+training data format and an API. It is also very flexible: you can easily add your own custom components or 
+tweak a number of parameters.
+
+One of the key things to configure is the processing pipeline: a sequence of components that will be executed 
+sequentially on the user input. There are severals types of built-in components:
+	- A model initializer is just there to load pre-trained word vectors in a given language, such as spaCy or 
+	MITIE.
+	- A tokenizer is used to split the input text into words.
+    - A featurizer transforms the tokens as well as some of their properties into features that can be used by 
+	machine learning algorithms.
+	- A named entity recognizer (ner) extracts entities (e.g. names, quantities, dates, etc.) from the input.
+	- An intent classifier extracts an intent (e.g. book a flight) from the input.
+
+featurizer / Vectorization
+	In order to apply machine learning algorithms to conversational AI, we need to build up vector representations 
+of conversations. A featurizer transforms the tokens as well as some of their properties into features that can be 
+used by machine learning algorithms.
+
+SVM Vs RNN Vs LSTM Vs Transformers
+
+	SVM Vs Deep Learning
+
+	Support vector machines (SVM), on the other hand, are based on finding a splitting boundary (a hyperplane 
+	in linearly separable cases) that is as far away as possible from the nearests points (support vectors) on 
+	either side. In other words, given a set of points that belong to either of the two classes, A and B. The 
+	SVM is about finding a boundary passing between the points such as to partition the space into side A and 
+	side B while maintaining the largest distance away from any nearest point on either side.
+
+	DL is about learning increasingly more abstract representations in a layer-wise manner. Each layer feeds from 
+	the layer below and then sends the output to the layer above and so on. This process leads to neurons high up 
+	the hierarchy being sensitive to particular complete objects or scenes in case of vision applications that is.
+
+	CNN Vs RNN
+
+	CNN is a feed forward neural network that is generally used for Image recognition and object classification. 
+	While RNN works on the principle of saving the output of a layer and feeding this back to the input in order to 
+	predict the output of the layer.
+	
+	CNN considers only the current input while RNN considers the current input and also the previously received 
+	inputs. It can memorize previous inputs due to its internal memory.
+
+	RNN can handle sequential data while CNN cannot.
+	In RNN, the previous states is fed as input to the current state of the network. RNN can be used in NLP, 
+	Time Series Prediction, Machine Translation, etc.
+
+	LSTM (A RNN)
+	Hence standard RNNs fail to learn in the presence of time lags greater than 5 – 10 discrete time steps 
+	between relevant input events and target signals. The vanishing error problem casts doubt on whether 
+	standard RNNs can indeed exhibit significant practical advantages over time window-based feedforward 
+	networks. A recent model, “Long Short-Term Memory” (LSTM), is not affected by this problem. LSTM can learn 
+	to bridge minimal time lags in excess of 1000 discrete time steps by enforcing constant error flow through 
+	“constant error carrousels” (CECs) within special units, called cells.
+	
+	Long Short-Term Memory (LSTM) networks are a type of RNN that aim to address this by learning to forget 
+	parts of the conversation.
+
+	pre-trained Vs supervised embeddings
+
+	Pretrained Word Embeddings are the embeddings learned in one task that are used for solving another similar 
+	task. These embeddings are trained on large datasets, saved, and then used for solving other tasks.
+	The advantage of using pre-trained word embeddings in your pipeline is that if you have a training example 
+	like: “I want to buy apples”, and Rasa is asked to predict the intent for “get pears”, your model already 
+	knows that the words “apples” and “pears” are very similar.	
+	RASA provides MitieFeaturizer, SpacyFeaturizer, ConveRTFeaturizer, LanguageModelFeaturizer for using 
+	pre-trained embeddings.
+
+	If you don’t use any pre-trained word embeddings inside your pipeline, you are not bound to a specific 
+	language and can train your model to be more domain specific. For example, in general English, 
+	the word “balance” is closely related to “symmetry”, but very different to the word “cash”. In a banking 
+	domain, “balance” and “cash” are closely related and you’d like your model to capture that. You should only 
+	use featurizers from the category sparse featurizers, such as CountVectorsFeaturizer, RegexFeaturizer or 
+	LexicalSyntacticFeaturizer, if you don’t want to use pre-trained word embeddings.
+	
+Tensorflow
+	Allows developers to create large-scale neural networks with many layers. 
+	TensorFlow is mainly used for: Classification, Perception, Understanding, Discovering, Prediction and 
+	Creation.
+	
+BILOU tagging
+	Tagging format for tagging tokens in a chunking task in computational linguistics
+	Eg: Alex B-PER
+		is O
+		going O
+		to O
+		Los B-LOC
+		Angeles I-LOC
+		in O
+		California B-LOC
+		
+DIETClassifier
+
+DIET is a multi-task transformer architecture that handles both intent classification and entity recognition 
+together. It provides the ability to plug and play various pre-trained embeddings like BERT, GloVe, ConveRT, and 
+so on. In our experiments, there isn’t a single set of embeddings that is consistently best across different 
+datasets. A modular architecture, therefore, is especially important.
+
+DIET uses a sequence model that takes word order into account, thereby offering better performance. It’s also a 
+more compact model with a plug-and-play, modular architecture. For instance, you can use DIET to do both intent 
+classification and entity extraction; you can also perform a single task, for example, configure it to turn off 
+intent classification and train it just for entity extraction.
+
+DIET is different because it:
+
+	Is a modular architecture that fits into a typical software development workflow
+	Parallels large-scale pre-trained language models in accuracy and performance
+	Improves upon current state of the art and is 6X faster to train
+
+TEDP (Transformer Embedding Dialogue Policy)
+
+Increasingly though, LSTMs are being replaced by transformer architectures, which are especially well-suited 
+for modeling multi-turn dialogues. Like LSTMs, transformers don’t encode the entire sequence of user inputs. 
+Instead, a transformer uses a mechanism called self-attention to choose which elements in the dialogue to take 
+into account when making a prediction, independently at each turn. This is in contrast to an LSTM, which updates 
+its internal memory and then passes the state to subsequent dialogue turns.
+
+If an LSTM encounters an unexpected user input, it can wind up in a state it can’t recover from, because memory 
+is passed from one conversation turn to the next. 
+
+Transformers
+
+A transformer is better able to recover from unexpected inputs 
+because the relevance of the conversation history is re-calculated within each turn.
+
+To summarize, a transformer architecture offers two advantages when it comes to predicting dialogue across more 
+complex, multi-turn conversations. It can decide which elements in the dialogue sequence are important to pay 
+attention to, and it makes each prediction independently from the others in the sequence, so it’s able to 
+recover if a user interjects with something unexpected.
 
