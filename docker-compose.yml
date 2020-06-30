@@ -1,0 +1,70 @@
+version: '3.0'
+services:
+  rasa:
+    image: artifactory.global.com/scarf/services/scarf-rasa-chatbot:latest
+    container_name: core-rasa
+    networks: 
+      - core-rasa-network
+    restart: always
+    user: root
+    ports:
+      - "8015:5005"
+    volumes:
+      - "./:/app"
+    entrypoint:
+      - /bin/sh
+      - ./start_rasa_http.sh
+    env_file:
+      - .env
+  nlg:
+    image: artifactory.global.com/scarf/scarf-rasa-nlg:latest
+    container_name: core-nlg
+    networks:
+      - core-rasa-network
+    restart: always
+    ports:
+      - "8081:9000"
+    volumes:
+      - './config:/app/config'
+    entrypoint:
+      - python
+    command:
+      - app.py
+  actions:
+    image: artifactory.global.com/scarf/scarf-rasa-actions:latest
+    container_name: core-actions
+    networks:
+      - core-rasa-network
+    restart: always
+    ports:
+      - '8065:5055'
+    volumes:
+      - './config:/app/exported_actions/config'
+    command:
+      - '-m'
+      - rasa
+      - run
+      - actions
+      - '--cors'
+      - '*'
+      - '--verbose'
+      - '--action'
+      - actions
+    env_file:
+      - .env
+  mongo:
+    image: artifactory.global.com/mongo:latest
+    container_name: core-mongo
+    restart: always
+    networks:
+      - core-rasa-network
+    volumes:
+      - './mongo-db:/data/db'
+    ports:
+      - '8099:27017'
+    env_file:
+      - .env
+networks:
+  core-rasa-network: {}
+volumes:
+  core-rasa-db: null
